@@ -1,0 +1,402 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="EczaDepoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Calisan">
+          <Key>
+            <PropertyRef Name="idCALISAN" />
+          </Key>
+          <Property Name="idCALISAN" Type="int" Nullable="false" />
+          <Property Name="Ad" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Soyad" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Telefon" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Email" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Görev" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="IseGirisTarihi" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Maas" Type="int" Nullable="false" />
+          <Property Name="SubeID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Ilac">
+          <Key>
+            <PropertyRef Name="idILAC" />
+          </Key>
+          <Property Name="idILAC" Type="int" Nullable="false" />
+          <Property Name="Ad" Type="nchar" MaxLength="30" Nullable="false" />
+          <Property Name="Fiyat" Type="int" Nullable="false" />
+          <Property Name="StokAdet" Type="int" Nullable="false" />
+          <Property Name="UretimTarihi" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="SonKullanmaTarihi" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="GenelBilgi" Type="nchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Musteri">
+          <Key>
+            <PropertyRef Name="idMUSTERI" />
+          </Key>
+          <Property Name="idMUSTERI" Type="int" Nullable="false" />
+          <Property Name="Ad" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Soyad" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Telefon" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="CalisanID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Satis">
+          <Key>
+            <PropertyRef Name="idSATIS" />
+          </Key>
+          <Property Name="idSATIS" Type="int" Nullable="false" />
+          <Property Name="CalisanID" Type="int" Nullable="false" />
+          <Property Name="MusteriID" Type="int" Nullable="false" />
+          <Property Name="IlacID" Type="int" Nullable="false" />
+          <Property Name="Adet" Type="int" Nullable="false" />
+          <Property Name="Kazanc" Type="int" Nullable="false" />
+          <Property Name="Tarih" Type="nchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Sube">
+          <Key>
+            <PropertyRef Name="idSUBE" />
+          </Key>
+          <Property Name="idSUBE" Type="int" Nullable="false" />
+          <Property Name="Ad" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Adres" Type="nchar" MaxLength="50" Nullable="false" />
+          <Property Name="CalisanKisiSayisi" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Calisan_Sube">
+          <End Role="Sube" Type="Self.Sube" Multiplicity="1" />
+          <End Role="Calisan" Type="Self.Calisan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sube">
+              <PropertyRef Name="idSUBE" />
+            </Principal>
+            <Dependent Role="Calisan">
+              <PropertyRef Name="SubeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Musteri_Calisan">
+          <End Role="Calisan" Type="Self.Calisan" Multiplicity="1" />
+          <End Role="Musteri" Type="Self.Musteri" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Calisan">
+              <PropertyRef Name="idCALISAN" />
+            </Principal>
+            <Dependent Role="Musteri">
+              <PropertyRef Name="CalisanID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Satis_Calisan">
+          <End Role="Calisan" Type="Self.Calisan" Multiplicity="1" />
+          <End Role="Satis" Type="Self.Satis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Calisan">
+              <PropertyRef Name="idCALISAN" />
+            </Principal>
+            <Dependent Role="Satis">
+              <PropertyRef Name="CalisanID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Satis_Ilac">
+          <End Role="Ilac" Type="Self.Ilac" Multiplicity="1" />
+          <End Role="Satis" Type="Self.Satis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ilac">
+              <PropertyRef Name="idILAC" />
+            </Principal>
+            <Dependent Role="Satis">
+              <PropertyRef Name="IlacID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Satis_Musteri">
+          <End Role="Musteri" Type="Self.Musteri" Multiplicity="1" />
+          <End Role="Satis" Type="Self.Satis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Musteri">
+              <PropertyRef Name="idMUSTERI" />
+            </Principal>
+            <Dependent Role="Satis">
+              <PropertyRef Name="MusteriID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EczaDepoModelStoreContainer">
+          <EntitySet Name="Calisan" EntityType="Self.Calisan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ilac" EntityType="Self.Ilac" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Musteri" EntityType="Self.Musteri" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Satis" EntityType="Self.Satis" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sube" EntityType="Self.Sube" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Calisan_Sube" Association="Self.FK_Calisan_Sube">
+            <End Role="Sube" EntitySet="Sube" />
+            <End Role="Calisan" EntitySet="Calisan" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Musteri_Calisan" Association="Self.FK_Musteri_Calisan">
+            <End Role="Calisan" EntitySet="Calisan" />
+            <End Role="Musteri" EntitySet="Musteri" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Satis_Calisan" Association="Self.FK_Satis_Calisan">
+            <End Role="Calisan" EntitySet="Calisan" />
+            <End Role="Satis" EntitySet="Satis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Satis_Ilac" Association="Self.FK_Satis_Ilac">
+            <End Role="Ilac" EntitySet="Ilac" />
+            <End Role="Satis" EntitySet="Satis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Satis_Musteri" Association="Self.FK_Satis_Musteri">
+            <End Role="Musteri" EntitySet="Musteri" />
+            <End Role="Satis" EntitySet="Satis" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="EczaDepoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Calisan">
+          <Key>
+            <PropertyRef Name="idCALISAN" />
+          </Key>
+          <Property Name="idCALISAN" Type="Int32" Nullable="false" />
+          <Property Name="Ad" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Soyad" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Telefon" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Görev" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="IseGirisTarihi" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Maas" Type="Int32" Nullable="false" />
+          <Property Name="SubeID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Sube" Relationship="Self.FK_Calisan_Sube" FromRole="Calisan" ToRole="Sube" />
+          <NavigationProperty Name="Musteri" Relationship="Self.FK_Musteri_Calisan" FromRole="Calisan" ToRole="Musteri" />
+          <NavigationProperty Name="Satis" Relationship="Self.FK_Satis_Calisan" FromRole="Calisan" ToRole="Satis" />
+        </EntityType>
+        <EntityType Name="Ilac">
+          <Key>
+            <PropertyRef Name="idILAC" />
+          </Key>
+          <Property Name="idILAC" Type="Int32" Nullable="false" />
+          <Property Name="Ad" Type="String" MaxLength="30" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Fiyat" Type="Int32" Nullable="false" />
+          <Property Name="StokAdet" Type="Int32" Nullable="false" />
+          <Property Name="UretimTarihi" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="SonKullanmaTarihi" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="GenelBilgi" Type="String" MaxLength="100" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Satis" Relationship="Self.FK_Satis_Ilac" FromRole="Ilac" ToRole="Satis" />
+        </EntityType>
+        <EntityType Name="Musteri">
+          <Key>
+            <PropertyRef Name="idMUSTERI" />
+          </Key>
+          <Property Name="idMUSTERI" Type="Int32" Nullable="false" />
+          <Property Name="Ad" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Soyad" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Telefon" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="CalisanID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Calisan" Relationship="Self.FK_Musteri_Calisan" FromRole="Musteri" ToRole="Calisan" />
+          <NavigationProperty Name="Satis" Relationship="Self.FK_Satis_Musteri" FromRole="Musteri" ToRole="Satis" />
+        </EntityType>
+        <EntityType Name="Satis">
+          <Key>
+            <PropertyRef Name="idSATIS" />
+          </Key>
+          <Property Name="idSATIS" Type="Int32" Nullable="false" />
+          <Property Name="CalisanID" Type="Int32" Nullable="false" />
+          <Property Name="MusteriID" Type="Int32" Nullable="false" />
+          <Property Name="IlacID" Type="Int32" Nullable="false" />
+          <Property Name="Adet" Type="Int32" Nullable="false" />
+          <Property Name="Kazanc" Type="Int32" Nullable="false" />
+          <Property Name="Tarih" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Calisan" Relationship="Self.FK_Satis_Calisan" FromRole="Satis" ToRole="Calisan" />
+          <NavigationProperty Name="Ilac" Relationship="Self.FK_Satis_Ilac" FromRole="Satis" ToRole="Ilac" />
+          <NavigationProperty Name="Musteri" Relationship="Self.FK_Satis_Musteri" FromRole="Satis" ToRole="Musteri" />
+        </EntityType>
+        <EntityType Name="Sube">
+          <Key>
+            <PropertyRef Name="idSUBE" />
+          </Key>
+          <Property Name="idSUBE" Type="Int32" Nullable="false" />
+          <Property Name="Ad" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Adres" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="CalisanKisiSayisi" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Calisan" Relationship="Self.FK_Calisan_Sube" FromRole="Sube" ToRole="Calisan" />
+        </EntityType>
+        <Association Name="FK_Calisan_Sube">
+          <End Role="Sube" Type="Self.Sube" Multiplicity="1" />
+          <End Role="Calisan" Type="Self.Calisan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sube">
+              <PropertyRef Name="idSUBE" />
+            </Principal>
+            <Dependent Role="Calisan">
+              <PropertyRef Name="SubeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Musteri_Calisan">
+          <End Role="Calisan" Type="Self.Calisan" Multiplicity="1" />
+          <End Role="Musteri" Type="Self.Musteri" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Calisan">
+              <PropertyRef Name="idCALISAN" />
+            </Principal>
+            <Dependent Role="Musteri">
+              <PropertyRef Name="CalisanID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Satis_Calisan">
+          <End Role="Calisan" Type="Self.Calisan" Multiplicity="1" />
+          <End Role="Satis" Type="Self.Satis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Calisan">
+              <PropertyRef Name="idCALISAN" />
+            </Principal>
+            <Dependent Role="Satis">
+              <PropertyRef Name="CalisanID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Satis_Ilac">
+          <End Role="Ilac" Type="Self.Ilac" Multiplicity="1" />
+          <End Role="Satis" Type="Self.Satis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ilac">
+              <PropertyRef Name="idILAC" />
+            </Principal>
+            <Dependent Role="Satis">
+              <PropertyRef Name="IlacID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Satis_Musteri">
+          <End Role="Musteri" Type="Self.Musteri" Multiplicity="1" />
+          <End Role="Satis" Type="Self.Satis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Musteri">
+              <PropertyRef Name="idMUSTERI" />
+            </Principal>
+            <Dependent Role="Satis">
+              <PropertyRef Name="MusteriID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EczaDepoEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Calisan" EntityType="Self.Calisan" />
+          <EntitySet Name="Ilac" EntityType="Self.Ilac" />
+          <EntitySet Name="Musteri" EntityType="Self.Musteri" />
+          <EntitySet Name="Satis" EntityType="Self.Satis" />
+          <EntitySet Name="Sube" EntityType="Self.Sube" />
+          <AssociationSet Name="FK_Calisan_Sube" Association="Self.FK_Calisan_Sube">
+            <End Role="Sube" EntitySet="Sube" />
+            <End Role="Calisan" EntitySet="Calisan" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Musteri_Calisan" Association="Self.FK_Musteri_Calisan">
+            <End Role="Calisan" EntitySet="Calisan" />
+            <End Role="Musteri" EntitySet="Musteri" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Satis_Calisan" Association="Self.FK_Satis_Calisan">
+            <End Role="Calisan" EntitySet="Calisan" />
+            <End Role="Satis" EntitySet="Satis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Satis_Ilac" Association="Self.FK_Satis_Ilac">
+            <End Role="Ilac" EntitySet="Ilac" />
+            <End Role="Satis" EntitySet="Satis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Satis_Musteri" Association="Self.FK_Satis_Musteri">
+            <End Role="Musteri" EntitySet="Musteri" />
+            <End Role="Satis" EntitySet="Satis" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="EczaDepoModelStoreContainer" CdmEntityContainer="EczaDepoEntities1">
+          <EntitySetMapping Name="Calisan">
+            <EntityTypeMapping TypeName="EczaDepoModel.Calisan">
+              <MappingFragment StoreEntitySet="Calisan">
+                <ScalarProperty Name="idCALISAN" ColumnName="idCALISAN" />
+                <ScalarProperty Name="Ad" ColumnName="Ad" />
+                <ScalarProperty Name="Soyad" ColumnName="Soyad" />
+                <ScalarProperty Name="Telefon" ColumnName="Telefon" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Görev" ColumnName="Görev" />
+                <ScalarProperty Name="IseGirisTarihi" ColumnName="IseGirisTarihi" />
+                <ScalarProperty Name="Maas" ColumnName="Maas" />
+                <ScalarProperty Name="SubeID" ColumnName="SubeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ilac">
+            <EntityTypeMapping TypeName="EczaDepoModel.Ilac">
+              <MappingFragment StoreEntitySet="Ilac">
+                <ScalarProperty Name="idILAC" ColumnName="idILAC" />
+                <ScalarProperty Name="Ad" ColumnName="Ad" />
+                <ScalarProperty Name="Fiyat" ColumnName="Fiyat" />
+                <ScalarProperty Name="StokAdet" ColumnName="StokAdet" />
+                <ScalarProperty Name="UretimTarihi" ColumnName="UretimTarihi" />
+                <ScalarProperty Name="SonKullanmaTarihi" ColumnName="SonKullanmaTarihi" />
+                <ScalarProperty Name="GenelBilgi" ColumnName="GenelBilgi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Musteri">
+            <EntityTypeMapping TypeName="EczaDepoModel.Musteri">
+              <MappingFragment StoreEntitySet="Musteri">
+                <ScalarProperty Name="idMUSTERI" ColumnName="idMUSTERI" />
+                <ScalarProperty Name="Ad" ColumnName="Ad" />
+                <ScalarProperty Name="Soyad" ColumnName="Soyad" />
+                <ScalarProperty Name="Telefon" ColumnName="Telefon" />
+                <ScalarProperty Name="CalisanID" ColumnName="CalisanID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Satis">
+            <EntityTypeMapping TypeName="EczaDepoModel.Satis">
+              <MappingFragment StoreEntitySet="Satis">
+                <ScalarProperty Name="idSATIS" ColumnName="idSATIS" />
+                <ScalarProperty Name="CalisanID" ColumnName="CalisanID" />
+                <ScalarProperty Name="MusteriID" ColumnName="MusteriID" />
+                <ScalarProperty Name="IlacID" ColumnName="IlacID" />
+                <ScalarProperty Name="Adet" ColumnName="Adet" />
+                <ScalarProperty Name="Kazanc" ColumnName="Kazanc" />
+                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sube">
+            <EntityTypeMapping TypeName="EczaDepoModel.Sube">
+              <MappingFragment StoreEntitySet="Sube">
+                <ScalarProperty Name="idSUBE" ColumnName="idSUBE" />
+                <ScalarProperty Name="Ad" ColumnName="Ad" />
+                <ScalarProperty Name="Adres" ColumnName="Adres" />
+                <ScalarProperty Name="CalisanKisiSayisi" ColumnName="CalisanKisiSayisi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
